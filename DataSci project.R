@@ -45,22 +45,37 @@ data$`Disaster.Type` <- as.numeric(data$`Disaster.Type`)
 data$State <- as.factor(data$State)
 data$State <- as.numeric(data$State)
 
+####################### testing #######################
+
+#unscaled test and train data
 x.train <- data[train,]
 x.test <- data[-train,]
 y.train <- data$`Disaster.Type`[train]
 y.test <- data$`Disaster.Type`[-train]
 
-set.seed(1)
-knn.pred <- knn(train = x.train,
-                test = x.test,
-                cl = y.train,
-                k=3)
+#scaled train and test data
+x.train <- scale(data[train,])
+x.test <-  scale(data[-train,],
+                 center = attr(x.train, "scaled:center"),
+                 scale = attr(x.train, "scaled:scale"))
+y.train <- data$`Disaster.Type`[train]
+y.test <- data$`Disaster.Type`[-train]
 
+
+for (K in c(1,3,10)){
+  set.seed(1)
+  knn.pred=knn(x.train,
+               x.test,
+               y.train,
+               k=K)
+  print(mean(knn.pred != y.test))
+}
+
+#uses LOOCV to predict data
 set.seed(1)
 knn.cv.pred <- knn.cv(train = data,
                 cl = data$`Disaster.Type`,
-                k=3)
+                k=1)
 
-
-mean(knn.pred != y.test)
+mean(knn.cv.pred != y.test)
 
