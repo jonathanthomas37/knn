@@ -56,5 +56,11 @@ knn.pred <- knn(train = x.train,
                 cl = y.train,
                 k=3)
 
+set.seed(1)
+knn.cv.pred <- knn.cv(train = data,
+                cl = data$`Disaster.Type`,
+                k=3)
+
+
 mean(knn.pred != y.test)
 
