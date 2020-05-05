@@ -110,7 +110,7 @@ for (K in c(1,2,3,5,10,20,40,50)){
 
 #uses LOOCV to predict data
 set.seed(1)
-knn.cv.pred <- knn.cv(train = data[],
+knn.cv.pred <- knn.cv(train = data[,-6],
                 cl = data$`Disaster.Type`,
                 k=1)
 
